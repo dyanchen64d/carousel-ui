@@ -20,12 +20,25 @@ function onHandleClick(direction) {
   const sliderIdx = getComputedStyle(slider).getPropertyValue('--slider-index');
   // console.log('sliderIdx', sliderIdx);
 
+  const itemCount = slider.children.length;
+  const itemPerScreen =
+    getComputedStyle(slider).getPropertyValue('--items-per-screen');
+  const progressBarItemCount = Math.ceil(itemCount / itemPerScreen);
+
   if (direction === 'left') {
-    slider.style.setProperty('--slider-index', Number(sliderIdx) - 1);
+    if (sliderIdx > 0) {
+      slider.style.setProperty('--slider-index', Number(sliderIdx) - 1);
+    } else {
+      slider.style.setProperty('--slider-index', progressBarItemCount - 1);
+    }
   }
 
   if (direction === 'right') {
-    slider.style.setProperty('--slider-index', Number(sliderIdx) + 1);
+    if (sliderIdx < progressBarItemCount - 1) {
+      slider.style.setProperty('--slider-index', Number(sliderIdx) + 1);
+    } else {
+      slider.style.setProperty('--slider-index', 0);
+    }
   }
 
   calcProgressBar(progressBar);
