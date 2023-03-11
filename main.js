@@ -44,6 +44,12 @@ function onHandleClick(direction) {
   calcProgressBar(progressBar);
 }
 
+// addEventListener('resize', calcProgressBar);
+const throttleCalcProgressBar = throttle(calcProgressBar, 500);
+addEventListener('resize', () => {
+  throttleCalcProgressBar(progressBar);
+});
+
 function calcProgressBar(pb) {
   pb.innerHTML = '';
   const itemCount = slider.children.length;
@@ -53,13 +59,47 @@ function calcProgressBar(pb) {
 
   const progressBarItemCount = Math.ceil(itemCount / itemPerScreen);
 
-  const sliderIdx = getComputedStyle(slider).getPropertyValue('--slider-index');
+  let sliderIdx = getComputedStyle(slider).getPropertyValue('--slider-index');
+
+  // console.log('sliderIdx', sliderIdx);
+  console.log('progressBarItemCount', progressBarItemCount);
+
+  if (Number(sliderIdx) >= progressBarItemCount) {
+    slider.style.setProperty('--slider-index', progressBarItemCount - 1);
+    sliderIdx = progressBarItemCount - 1;
+  }
 
   for (let i = 0; i < progressBarItemCount; i++) {
     pb.innerHTML += `
       <div class="progress-item ${i === Number(sliderIdx) ? 'active' : ''}" />
     `;
   }
+}
+
+function throttle(cb, delay = 1000) {
+  let shouldWait = false;
+  let waitingArgs;
+
+  const timeoutFunc = () => {
+    if (waitingArgs == null) {
+      shouldWait = false;
+    } else {
+      cb(...waitingArgs);
+      waitingArgs = null;
+      setTimeout(timeoutFunc, delay);
+    }
+  };
+
+  return (...args) => {
+    if (shouldWait) {
+      waitingArgs = args;
+      return;
+    }
+
+    cb(...args);
+    shouldWait = true;
+    setTimeout(timeoutFunc, delay);
+  };
 }
 
 calcProgressBar(progressBar);
