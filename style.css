@@ -30,7 +30,7 @@ body {
 }
 
 .item {
-  flex: 0 0 25%;
+  flex: 0 0 50%;
   aspect-ratio: 16 / 9;
   padding: 0.5rem;
 }
@@ -55,14 +55,20 @@ body {
   justify-content: center;
   align-items: center;
   color: white;
-  font-size: 2rem;
   transition: all 0.3s ease-in-out;
   z-index: 10;
 }
 
+.handle > span {
+  font-size: 2rem;
+}
+
 .handle:hover {
   background-color: rgba(0, 0, 0, 0.4);
-  font-size: 3rem;
+}
+
+.handle:hover > span {
+  /* font-size: 3rem; */
 }
 
 .left-handle {
