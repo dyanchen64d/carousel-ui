@@ -22,10 +22,11 @@ body {
 }
 
 .slider {
+  --slider-index: 0;
   width: calc(100% - var(--slider-padding) * 2);
   display: flex;
   margin: 0 0.2rem;
-  /* transform: translate(-100%); */
+  transform: translate(calc(-100% * var(--slider-index)));
 }
 
 .item {
@@ -56,6 +57,7 @@ body {
   color: white;
   font-size: 2rem;
   transition: all 0.3s ease-in-out;
+  z-index: 10;
 }
 
 .handle:hover {
