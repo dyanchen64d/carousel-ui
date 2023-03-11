@@ -27,6 +27,7 @@ body {
   display: flex;
   margin: 0 0.2rem;
   transform: translate(calc(-100% * var(--slider-index)));
+  transition: transform 300ms ease-in-out;
 }
 
 .item {
